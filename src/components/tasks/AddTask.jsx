@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 
-class SignUp extends Component {
+class AddTask extends Component {
   state = {
-    email: "",
-    password: "",
+    task: "",
   };
 
   handleChange = (e) => {
@@ -26,30 +25,18 @@ class SignUp extends Component {
           style={{ marginTop: "30px" }}
           onSubmit={this.handleSubmit}
         >
-          <legend>
-            {" "}
-            <h4>Sign Up</h4>
-          </legend>
+          <legend> </legend>
           <div className="form-group">
-            <label htmlFor="email">Enter Email</label>
+            <label htmlFor="task">Add a task</label>
             <input
-              type="email"
+              type="text"
               className="form-control"
-              id="email"
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Enter Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
+              id="task"
               onChange={this.handleChange}
             />
           </div>
           <button type="submit" className="btn btn-primary">
-            SignUp
+            Add
           </button>
         </form>
       </>
@@ -57,4 +44,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default AddTask;
