@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+import { addTask } from "../../actions/taskActions";
+import { connect } from "react-redux";
 
 class AddTask extends Component {
   state = {
     task: "",
+    checked: "false",
   };
 
   handleChange = (e) => {
@@ -13,6 +16,8 @@ class AddTask extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    this.props.addTask(this.state);
+    document.getElementById("addTaskForm").reset();
     console.log(this.state);
   };
 
@@ -20,6 +25,7 @@ class AddTask extends Component {
     return (
       <>
         <form
+          id="addTaskForm"
           className="container"
           autoComplete="off"
           style={{ marginTop: "30px" }}
@@ -44,4 +50,10 @@ class AddTask extends Component {
   }
 }
 
-export default AddTask;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTask: (task) => dispatch(addTask(task)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AddTask);

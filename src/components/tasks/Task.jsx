@@ -1,21 +1,32 @@
 import React from "react";
+import moment from "moment";
+import { removeTask } from "../../actions/taskActions";
+import { connect } from "react-redux";
+import Check from "./Check";
+import { toggleChecked } from "../../actions/taskActions";
 
-const Task = () => {
+const Task = ({ task, removeTask, toggleChecked }) => {
+  const handleRemove = (task) => {
+    removeTask(task);
+  };
+
+  const handleCheck = (task) => {
+    toggleChecked(task);
+  };
+
   return (
     <>
       <tr>
-        <th>Learn React</th>
-        <td>20/03/2020</td>
+        <th>{task.task}</th>
+        <td>{moment(task.date.toDate()).calendar()}</td>
         <td>
-          {" "}
-          <span className="material-icons" style={{ cursor: "pointer" }}>
-            check_circle
-          </span>
+          <Check onClick={() => handleCheck(task)} checked={task.checked} />
         </td>
         <td>
           <span
             className="material-icons text-danger"
             style={{ cursor: "pointer" }}
+            onClick={() => handleRemove(task)}
           >
             delete
           </span>
@@ -25,4 +36,11 @@ const Task = () => {
   );
 };
 
-export default Task;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeTask: (task) => dispatch(removeTask(task)),
+    toggleChecked: (task) => dispatch(toggleChecked(task)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Task);

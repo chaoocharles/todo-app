@@ -1,7 +1,10 @@
 import React from "react";
 import Task from "./Task";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
-const Tasks = () => {
+const Tasks = ({ tasks }) => {
   return (
     <>
       <table
@@ -17,11 +20,26 @@ const Tasks = () => {
           </tr>
         </thead>
         <tbody>
-          <Task />
+          {tasks && tasks.map((task) => <Task task={task} key={task.id} />)}
         </tbody>
       </table>
     </>
   );
 };
 
-export default Tasks;
+const mapStateToProps = (state) => {
+  console.log(state);
+  const tasks = state.firestore.ordered.tasks;
+  return {
+    tasks: tasks,
+  };
+};
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect((ownProps) => [
+    {
+      collection: "tasks",
+      orderBy: ["date", "desc"],
+    },
+  ])
+)(Tasks);
