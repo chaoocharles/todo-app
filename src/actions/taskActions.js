@@ -1,10 +1,13 @@
 export const addTask = (task) => {
   return (dispatch, getState, { getFirebase }) => {
     const firestore = getFirebase().firestore();
+    const authorId = getState().firebase.auth.uid
+
     firestore
       .collection("tasks")
       .add({
         ...task,
+        authorId: authorId,
         date: new Date(),
       })
       .then(() => {
